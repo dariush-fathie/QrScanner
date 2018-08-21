@@ -1,13 +1,16 @@
 package myjin.pro.ahoora.qrscanner
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.Color.WHITE
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.speech.RecognizerIntent
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.res.ResourcesCompat
@@ -53,6 +56,10 @@ class CreateFragment : Fragment(), View.OnClickListener {
                     save()
                 }
             }
+            R.id.iv_mic -> {
+
+                SpeechToText()
+            }
         }
 
 
@@ -63,6 +70,7 @@ class CreateFragment : Fragment(), View.OnClickListener {
 
         (activity as StartActivity).start.setOnClickListener(this)
         (activity as StartActivity).save.setOnClickListener(this)
+        (activity as StartActivity).iv_mic.setOnClickListener(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -249,4 +257,56 @@ class CreateFragment : Fragment(), View.OnClickListener {
         super.onStop()
 
     }
+
+
+    private fun SpeechToText(){
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "fa_IR")
+
+        Log.e("Locale.getDefault()", Locale.getDefault().toString())
+        if (intent.resolveActivity((activity as StartActivity).packageManager) != null) {
+            startActivityForResult(intent, 10)
+        } else {
+            Toast.makeText((activity as StartActivity), "دستگاه شما از زبان مورد نظر پشتیبانی نمی کند", Toast.LENGTH_LONG).show()
+
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode){
+
+            10->{
+                if (resultCode== Activity.RESULT_OK&& data!=null){
+                    val res=data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    edt_value.setText(res.get(0))
+                }
+            }
+        }
+    }
+
+    /*    private fun scanQr(){
+        val mReader = MultiFormatReader()
+        val hints = EnumMap<DecodeHintType, Any>(DecodeHintType::class.java)
+        hints.put(DecodeHintType.TRY_HARDER, true)
+// select your barcode formats here
+        val formats = Arrays.asList(BarcodeFormat.QR_CODE)
+        hints.put(DecodeHintType.POSSIBLE_FORMATS, formats)
+
+        mReader.setHints(hints)
+
+// your camera image here
+        var bitmapI: Bitmap?
+        val width = bitmapI!!.width
+        val height = bitmapI.height
+        val pixels = IntArray(width * height)
+        bitmapI.getPixels(pixels, 0, width, 0, 0, width, height)
+        bitmapI.recycle()
+        bitmapI = null
+        val bb = BinaryBitmap(HybridBinarizer(RGBLuminanceSource(width, height, pixels)))
+        val result = mReader.decodeWithState(bb)
+        val resultString = result.text
+    }*/
 }

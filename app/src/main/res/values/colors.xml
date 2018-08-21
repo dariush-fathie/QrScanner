@@ -9,4 +9,5 @@
     <color name="title">#424b55</color>
     <color name="back">#efefef</color>
     <color name="transparent">#00ffffff</color>
+    <color name="mic">#a5a5a5</color>
 </resources>
