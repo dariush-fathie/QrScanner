@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <me.dm7.barcodescanner.zxing.ZXingScannerView
+        android:id="@+id/scannerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </me.dm7.barcodescanner.zxing.ZXingScannerView>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_light"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/light_selector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_light"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_light"
+            android:tint="@color/white" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_light"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/yekan"
+            android:text="روشن"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
